@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Amina El Guendouz
 
-## Getting Started
+Portfolio réalisé avec **Next.js 16**, **React 19**, **TypeScript** et **Tailwind CSS**
+dans le cadre du cours Next.js (IIM, A2 C&DI).
 
-First, run the development server:
+- Site en ligne : _à compléter avec le lien Vercel_
+- Repo : https://github.com/Aminaelguendouz-lang/mon-portfolio-3
+
+## Lancer le projet
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # vérifie que le projet compile sans erreur
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Pages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Adresse | Fichier | Rôle |
+|---|---|---|
+| `/` | `app/page.tsx` | Accueil : présentation, projets en vedette, questions fréquentes |
+| `/projets` | `app/projets/page.tsx` | Tous les projets, avec filtre par tag et tri par année |
+| `/projets/[slug]` | `app/projets/[slug]/page.tsx` | Détail d'un projet, 404 si le slug est inconnu |
+| `/a-propos` | `app/a-propos/page.tsx` | Présentation et compétences |
+| `/contact` | `app/contact/page.tsx` | Contact |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Le menu et le pied de page sont écrits une seule fois dans `app/layout.tsx`.
+La page 404 personnalisée est dans `app/not-found.tsx`.
 
-## Learn More
+## Composants (`app/components/`)
 
-To learn more about Next.js, take a look at the following resources:
+| Composant | Props typées | Client ? |
+|---|---|---|
+| `Menu` | — (liens typés `Lien[]`) | non |
+| `PiedDePage` | — | non |
+| `Bouton` | `label`, `href`, `variante?: "plein" \| "contour"` | non |
+| `Hero` | `titre`, `texte` — utilise `Bouton` | non |
+| `Section` | `titre`, `children: ReactNode` | non |
+| `Carte` | `projet: Projet` — utilise `ImageProjet`, `ListeEtiquettes`, `BoutonJaime` | non |
+| `ImageProjet` | `src`, `alt` | non |
+| `Etiquette` | `texte` | non |
+| `ListeEtiquettes` | `tags: string[]` — utilise `Etiquette` | non |
+| `BoutonJaime` | — (`useState<boolean>`) | **oui** |
+| `Accordeon` | `question`, `children` (`useState<boolean>`) | **oui** |
+| `FiltreProjets` | `projets: Projet[]`, `tags: string[]` (`useState`) | **oui** |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`"use client"` est placé uniquement sur les composants qui utilisent `useState` et `onClick`.
+Les pages et le layout restent des composants serveur.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Données
 
-## Deploy on Vercel
+Les projets sont dans `app/lib/projets.ts` :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- un type `Projet` (slug, titre, resume, description, annee, tags, image, misEnAvant),
+- un tableau `projets: Projet[]` de 6 projets,
+- `trouverProjet(slug)` qui renvoie `Projet | undefined`,
+- `tousLesTags()` qui renvoie la liste des tags sans doublon.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Les images sont dans `public/projets/`.
+
+## TypeScript
+
+- Toutes les props sont typées avec `type Props`.
+- Aucun `any` dans le projet.
+- Types union : `variante?: "plein" | "contour"`, `type Tri = "recent" | "ancien"`.
+- `params: Promise<{ slug: string }>` sur la page dynamique, avec `await params`.
+
+## Bonus
+
+- Filtre par tag et tri par année sur `/projets`.
+- 4e et 5e pages : `/a-propos` et `/contact`.
+- Page 404 personnalisée.
