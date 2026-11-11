@@ -16,7 +16,7 @@ export default function Carte({ projet }: Props) {
       <div className="flex items-center justify-between">
         <p className="text-xs uppercase text-neutral-500">{projet.annee}</p>
         {projet.misEnAvant && (
-          <span className="rounded bg-black px-2 py-0.5 text-xs text-white">
+          <span className="rounded bg-foreground px-2 py-0.5 text-xs text-background">
             En vedette
           </span>
         )}

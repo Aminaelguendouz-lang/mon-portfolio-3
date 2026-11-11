@@ -9,7 +9,7 @@ export default function BoutonJaime() {
 
   const style = aime
     ? "border-red-500 bg-red-500 text-white"
-    : "border-neutral-300 text-black";
+    : "border-neutral-400 text-foreground";
 
   return (
     <button

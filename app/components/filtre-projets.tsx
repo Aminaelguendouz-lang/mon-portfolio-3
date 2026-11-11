@@ -37,8 +37,8 @@ export default function FiltreProjets({ projets, tags }: Props) {
             onClick={() => setTagChoisi(tag)}
             className={`rounded-full border px-3 py-1 text-sm ${
               tagChoisi === tag
-                ? "border-black bg-black text-white"
-                : "border-neutral-300"
+                ? "border-foreground bg-foreground text-background"
+                : "border-neutral-400 text-foreground"
             }`}
           >
             {tag}
